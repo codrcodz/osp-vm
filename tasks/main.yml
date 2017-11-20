@@ -3,25 +3,25 @@
 
   - name: talk to the api and get auth
     os_auth:
-      cert:
-      key:
-      cacert:
-      region_name:
+      cert: "{{ user_cert }}"
+      key: "{{ user_key }}"
+      cacert: "{{ user_cacert }}"
+      region_name: "{{ region }}"
 
   - name: get facts about about the VM's
     os_server_facts:
-      cert:
-      key:
-      cacert:
-      region_name:
-      server: web*
+      cert: "{{ user_cert }}"
+      key: "{{ user_key }}"
+      cacert: "{{ user_cacert }}"
+      region_name: "{{ region }}"
+      server: "{{ server_name }}"
     debug:
       var: openstack_servers
     register: found_vm
 
   - name: create VM if is not there
     os_server_action:
-      cert:
+      cert: 
       key:
       cacert:
       region_name:
@@ -32,5 +32,6 @@
         password:
       project_name:
       server: web45
+    when: 
 
 

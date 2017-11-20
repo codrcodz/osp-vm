@@ -2,6 +2,7 @@ Role Name
 =========
 
 Create a VM in OSP.
+
 Requirements
 ------------
 
