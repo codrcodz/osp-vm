@@ -36,23 +36,49 @@ osp_vm:
     endpoint_type: "admin"
     region_name: "RegionOne"
     keystone_version: "2"
+    projecT_name: "admin"
   vm:
     - vm1:
-        action:
+        name:
+        image:
+        key_name:
+        flavor:
+        region_name:
+        availability_zone:
+        key_name:
+        flavor:
+        security_groups:
+        auto_ip:
         server:
         image:      
 
     - vm2:
-        action:
+        name:
+        image:
+        key_name:
+        flavor:
+        region_name:
+        availability_zone:
+        key_name:
+        flavor:
+        security_groups:
+        auto_ip:
         server:
         image:
 
    - vm3:
-       action:
-       server:
-       image:
-
-
+       name:
+        image:
+        key_name:
+        flavor:
+        region_name:
+        availability_zone:
+        key_name:
+        flavor:
+        security_groups:
+        auto_ip:
+        server:
+        image:
 
 Dependencies
 ------------

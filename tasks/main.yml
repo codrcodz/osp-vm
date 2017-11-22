@@ -20,18 +20,25 @@
     register: found_vm
 
   - name: create VM if is not there
-    os_server_action:
+    os_server:
       cert: "{{ user_cert }}" 
       key: "{{ user_key }}"
       cacert: "{{ user_cacert }}"
       region_name: "{{ region }}"
-      action: create
       auth:
         auth_url: "{{ auth_url }}" # example > https://my-osp.com:5001/v2.0
         username: "{{ username }}"
         password: "{{ user_passwd }}"
-      project_name: "{{ osp_project }}"
-      server: "{{ server_name }}"
+        project_name: "{{ osp_project }}"
+      name: "{{ server_name }}"
+      image: "{{ server_image }}"
+      flavor: "{{ server_flavor }}"
+      network: "{{ server_network }}"
+      auto_ip: "{{ server_ip }}"
+      key_name: "{{ user_key }}"
+      state: "{{ server_state }}"
+
+
     when:
 
 
