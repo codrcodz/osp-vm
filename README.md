@@ -25,6 +25,35 @@ osp_project:
 server_name:
 ```
 
+osp_vm:
+  api:
+    auth:
+      auth_url: "http://192.168.0.1:35357/v.20"
+      username: "admin"
+      password: "{{ keystone_admin_password }}"
+      project_name: "admin"
+    auth_type: "password"
+    endpoint_type: "admin"
+    region_name: "RegionOne"
+    keystone_version: "2"
+  vm:
+    - vm1:
+        action:
+        server:
+        image:      
+
+    - vm2:
+        action:
+        server:
+        image:
+
+   - vm3:
+       action:
+       server:
+       image:
+
+
+
 Dependencies
 ------------
 
