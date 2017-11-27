@@ -24,21 +24,16 @@
       cert: "{{ user_cert }}" 
       key: "{{ user_key }}"
       cacert: "{{ user_cacert }}"
-      region_name: "{{ region }}"
-      auth:
-        auth_url: "{{ auth_url }}" # example > https://my-osp.com:5001/v2.0
-        username: "{{ username }}"
-        password: "{{ user_passwd }}"
-        project_name: "{{ osp_project }}"
-      name: "{{ server_name }}"
-      image: "{{ server_image }}"
-      flavor: "{{ server_flavor }}"
-      network: "{{ server_network }}"
-      auto_ip: "{{ server_ip }}"
-      key_name: "{{ user_key }}"
-      state: "{{ server_state }}"
+      region_name: "{{ osp_vm.region_name }}"
+      auth:  "{{ osp_vm.auth }}"
+      name: "{{ item.1.vm.name }}"
+      image: "{{ item.1.vm.image }}"
+      flavor: "{{ item.1.vm.flavor }}"
+      network: "{{ item.1.vm.network }}"
+      auto_ip: "{{ item.1.vm.auto_ip }}"
+      key_name: "{{ item.1.vm.key_name }}"
+      state: "{{ item.1.vm.server_state }}"
 
 
-    when:
 
 
