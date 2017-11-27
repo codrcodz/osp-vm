@@ -33,7 +33,8 @@
       auto_ip: "{{ item.1.vm.auto_ip }}"
       key_name: "{{ item.1.vm.key_name }}"
       state: "{{ item.1.vm.server_state }}"
-
+      with_subelements:
+        - "{{ osp_vm.vm }}"
 
 
 

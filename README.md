@@ -2,28 +2,16 @@ Role Name
 =========
 
 Create a VM in OSP.
+Module Docs http://docs.ansible.com/ansible/latest/os_server_module.html
+
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-group_vars
-
-```
-user_cert:
-user_key:
-user_cacert:
-region:
-auth_url:
-username:
-user_passwd:
-osp_project:
-server_name:
-```
 
 osp_vm:
   api:
@@ -39,18 +27,14 @@ osp_vm:
     projecT_name: "admin"
   vm:
     - vm1:
-        name:
-        image:
-        key_name:
-        flavor:
-        region_name:
-        availability_zone:
-        key_name:
-        flavor:
-        security_groups:
-        auto_ip:
-        server:
-        image:      
+        name: test                 # Name of the Instance
+        image: hadoop              # Name or ID of the Image
+        key_name: test_key         # User Key Pair
+        flavor: 101                # Instance Flavor
+        region_name: region1       # What Region
+        availability_zone: zone1   # What zone to use
+        security_groups: hadoop    # What security group to use
+        auto_ip: yes               # Auto give the instance a floating IP
 
     - vm2:
         name:
@@ -59,26 +43,9 @@ osp_vm:
         flavor:
         region_name:
         availability_zone:
-        key_name:
-        flavor:
         security_groups:
         auto_ip:
-        server:
-        image:
 
-   - vm3:
-       name:
-        image:
-        key_name:
-        flavor:
-        region_name:
-        availability_zone:
-        key_name:
-        flavor:
-        security_groups:
-        auto_ip:
-        server:
-        image:
 
 Dependencies
 ------------
@@ -87,11 +54,10 @@ Dependencies
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+  - hosts: all
+    role:
+      - osp-vm 
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
@@ -101,4 +67,3 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
