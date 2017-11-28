@@ -20,6 +20,7 @@ osp_vm:
       username: "admin"
       password: "{{ keystone_admin_password }}"
       project_name: "admin"
+      user_domain_name: "Default"
     auth_type: "password"
     endpoint_type: "admin"
     region_name: "RegionOne"
@@ -30,10 +31,12 @@ osp_vm:
       name: test                 # Name of the Instance
       image: hadoop              # Name or ID of the Image
       key_name: test_key         # User Key Pair
-      flavor: 101                # Instance Flavor
-      region_name: region1       # What Region
-      availability_zone: zone1   # What zone to use
-      security_groups: hadoop    # What security group to use
+      flavor: m1.tiny            # Instance Flavor
+      region_name: "RegionOne"   # What Region
+      availability_zone: nova    # What zone to use
+      state: present             # If the VM is there
+      network: public            # What network to be in
+      security_groups: default   # What security group to use
       auto_ip: yes               # Auto give the instance a floating IP
 
     other_vm:
