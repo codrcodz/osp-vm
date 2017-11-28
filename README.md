@@ -11,7 +11,7 @@ Requirements
 
 Role Variables
 --------------
-
+```
 
 osp_vm:
   api:
@@ -26,27 +26,27 @@ osp_vm:
     keystone_version: "2"
     projecT_name: "admin"
   vm:
-    - vm1:
-        name: test                 # Name of the Instance
-        image: hadoop              # Name or ID of the Image
-        key_name: test_key         # User Key Pair
-        flavor: 101                # Instance Flavor
-        region_name: region1       # What Region
-        availability_zone: zone1   # What zone to use
-        security_groups: hadoop    # What security group to use
-        auto_ip: yes               # Auto give the instance a floating IP
+    test:
+      name: test                 # Name of the Instance
+      image: hadoop              # Name or ID of the Image
+      key_name: test_key         # User Key Pair
+      flavor: 101                # Instance Flavor
+      region_name: region1       # What Region
+      availability_zone: zone1   # What zone to use
+      security_groups: hadoop    # What security group to use
+      auto_ip: yes               # Auto give the instance a floating IP
 
-    - vm2:
-        name:
-        image:
-        key_name:
-        flavor:
-        region_name:
-        availability_zone:
-        security_groups:
-        auto_ip:
+    other_vm:
+      name:
+      image:
+      key_name:
+      flavor:
+      region_name:
+      availability_zone:
+      security_groups:
+      auto_ip:
 
-
+```
 Dependencies
 ------------
 
