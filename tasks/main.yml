@@ -1,34 +1,55 @@
 ---
 # tasks file for osp-vm
 
-  - name: Get current OSP-related Bash env vars
-    shell: "env | grep OS_"
-    register: osp_vars
+# Checking OSP-related Bash environment variables
+- name: Ensuring authentication settings are correct
+  block:
+  - name: Getting current OSP-related Bash env vars (except ${OS_PASSWORD})
+    shell: "env | grep OS_ | egrep -v OS_PASSWORD"
+    register: osp_admin_vars
     changed_when: false
-
-  - name: Print current OSP-related Bash env vars (for debugging, if required)
+  - name: Printing current OSP-related Bash env vars (for debugging, if required)
     debug:
-      var: osp_vars.stdout_lines
+      var: osp_admin_vars.stdout_lines
     changed_when: false
-
+  - name: Pausing so you can review these env variables to ensure you want to continue
+    pause:
+      seconds: 1
+    changed_when: false
   - name: Ensuring authentication can occur with current OSP-related Bash env vars
     os_auth:
       auth_type: password
     changed_when: false
+  - name: Determining tasks to run based on value of ${OS_IDENTITY_API_VERSION} Bash env var
+    set_fact:
+      keystone_api_version: "{{ lookup('env', 'OS_IDENTITY_API_VERSION') }}"
+      default_project_name: "{{ lookup('env', 'OS_PROJECT_NAME') }}"
+    changed_when: false
 
+# Validating the existence and settings of the variable-defined block devices/volumes
+- name: Validating existence and settings of block devices/volume(s)
+  os_volume:
+    endpoint_type: public
+    display_name: "{{ item.name }}"
+    size: "{{ item.size }}"
+    image: "{{ item.image|default(omit) }}"
+  with_items:
+    - "{{ osp_vm.volumes }}"
 
-  - name: create VM.
-    os_server:
-      auth:  "{{ osp_vm.api.auth }}"
-      endpoint_type: "{{ osp_vm.api.endpoint_type }}"
-      name: "{{ item.key }}"
-      image: "{{ item.value.image }}"
-      flavor: "{{ item.value.flavor }}"
-      network: "{{ item.value.network }}"
-      auto_ip: "{{ item.value.auto_ip }}"
-      key_name: "{{ item.value.key_name }}"
-      state: "{{ item.value.server_state }}"
-    with_dict:  "{{ osp_vm.vm }}"
-
-
+# Validating existence of the variable-defined virtual machines
+- name: Validating existence and settings of virtual machine(s)
+  os_server:
+    endpoint_type: public
+    name: "{{ item.0.name }}"
+    image: "{{ item.0.image }}"
+    flavor: "{{ item.0.flavor }}"
+    network: "{{ item.0.network }}"
+    auto_ip: "{{ item.0.auto_ip|default(omit) }}"
+    key_name: "{{ item.0.key_name|default(omit) }}"
+    boot_from_volume: "{{ item.0.boot_from_volume|default(omit) }}"
+    volumes: "{{ item.1.name }}"
+  with_subelements:
+    - "{{ osp_vm.instances }}"
+    - attached_volumes
+...
 
