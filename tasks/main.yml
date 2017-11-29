@@ -1,37 +1,34 @@
 ---
 # tasks file for osp-vm
 
-  - name: talk to the api and get auth
-    os_auth:
-      cert: "{{ user_cert }}"
-      key: "{{ user_key }}"
-      cacert: "{{ user_cacert }}"
-      region_name: "{{ region }}"
+  - name: Get current OSP-related Bash env vars
+    shell: "env | grep OS_"
+    register: osp_vars
+    changed_when: false
 
-  - name: get facts about about the VM's
-    os_server_facts:
-      cert: "{{ user_cert }}"
-      key: "{{ user_key }}"
-      cacert: "{{ user_cacert }}"
-      region_name: "{{ region }}"
-      server: "{{ server_name }}"
+  - name: Print current OSP-related Bash env vars (for debugging, if required)
     debug:
-      var: openstack_servers
-    register: found_vm
+      var: osp_vars.stdout_lines
+    changed_when: false
 
-  - name: create VM if is not there
-    os_server_action:
-      cert: 
-      key:
-      cacert:
-      region_name:
-      action: create
-      auth:
-        auth_url: https://my-osp.com:5001/v2.0
-        username:
-        password:
-      project_name:
-      server: web45
-    when: 
+  - name: Ensuring authentication can occur with current OSP-related Bash env vars
+    os_auth:
+      auth_type: password
+    changed_when: false
+
+
+  - name: create VM.
+    os_server:
+      auth:  "{{ osp_vm.api.auth }}"
+      endpoint_type: "{{ osp_vm.api.endpoint_type }}"
+      name: "{{ item.key }}"
+      image: "{{ item.value.image }}"
+      flavor: "{{ item.value.flavor }}"
+      network: "{{ item.value.network }}"
+      auto_ip: "{{ item.value.auto_ip }}"
+      key_name: "{{ item.value.key_name }}"
+      state: "{{ item.value.server_state }}"
+    with_dict:  "{{ osp_vm.vm }}"
+
 
 
