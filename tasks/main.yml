@@ -36,5 +36,37 @@
       auth_type: "{{ osp_vm.api.endpoint_type }}"
       action: "{{ item.value.action }}"
       server: "{{ item.value.server }}"
+
+
+  - name: install all the dev rpms
+    yum:
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ osp_vm.vm.rpms }}"
+
+
+  - name: install pip requirements and the dev environment
+    block:
+      - name: install virtualenv with pip
+        pip:
+          name: "{{ item }}"
+          state: latest
+        with_items:
+          - "{{ osp_vm.vm.pip }}"
+      - name: create the virtualenv and packages
+        pip:
+          name: "{{ item.1 }}"
+          virtualenv: "{{ item.0.path }}"
+          state: latest
+        with_subelements:
+          - "{{ osp_vm.vm.virtualenvs }}"
+          - packages
+
+  - name: install the gems for dev
+    gem:
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ osp_vm.vm.ruby_gems }}"
+
     
 

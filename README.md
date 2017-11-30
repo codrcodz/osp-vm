@@ -41,6 +41,27 @@ osp_vm:
       auto_ip: yes               # Auto give the instance a floating IP
       action: rebuild            # action to take against the server
       server: hadoop-01          # the name of the server the action will be taken against on. Can use wildcards. This can be used to list a number of servers that the action will be taken. For example, if you want to stop 200 servers because you are done with testing or rebuild them to deploy the new code.
+      rpms:
+        - python-pip
+        - vim-common
+        - ruby
+        - python3
+      pip:
+        - virtualenv
+      ruby_gems:
+        - chef
+        - rbenv
+      virtualenvs:
+      - venv1:
+        path: /root/venv1
+        packages:
+          - ansible
+          - requests
+      - venv2
+        path: /home/mike/venv2
+        packages:
+          - fabric
+
 
     other_vm:
       name:
