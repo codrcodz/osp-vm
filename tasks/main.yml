@@ -30,5 +30,11 @@
       state: "{{ item.value.server_state }}"
     with_dict:  "{{ osp_vm.vm }}"
 
-
+  - name: recreate the VM's if desire
+    os_server_action:
+      auth: "{{ osp_vm.api.auth }}"
+      auth_type: "{{ osp_vm.api.endpoint_type }}"
+      action: "{{ item.value.action }}"
+      server: "{{ item.value.server }}"
+    
 
